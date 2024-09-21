@@ -17,3 +17,14 @@ def create_companies(*companies):
         logging.error(e)
 
 
+def find_company_by_id(cid: int):
+    try:
+        with get_db_connection() as connection, connection.cursor() as cursor:
+            cursor.execute("""
+            select * from company where id = %s
+            """, (cid, ))
+            logging.info(f"Retrieving company by the id: {cid}")
+            return cursor.fetchone()
+    except Exception as e:
+        logging.error(e)
+
